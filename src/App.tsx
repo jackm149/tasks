@@ -11,9 +11,8 @@ function App(): React.JSX.Element {
                 Edit <code>src/App.tsx</code> and save. This page will
                 automatically reload.
             </p>
-            <p>
-                Jack Mallett
-            </p>
+            <p>Jack Mallett</p>
+            <p>Hello World</p>
         </div>
     );
 }
