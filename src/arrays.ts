@@ -65,7 +65,18 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const filtered = messages.filter(function (message: string): boolean {
+        return message[message.length - 1] !== "?";
+    });
+
+    const sie = filtered.map(function (message: string): string {
+        if (message[message.length - 1] === "!") {
+            return message.toUpperCase();
+        }
+        return message;
+    });
+
+    return sie;
 };
 
 /**
@@ -73,7 +84,7 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    return words.filter((word) => word.length < 4).length;
 }
 
 /**
@@ -82,7 +93,11 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    const result = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green",
+    );
+    return result;
 }
 
 /**
@@ -93,7 +108,16 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+    const sum = addends.reduce(
+        (currentTotal: number, num: number) => currentTotal + num,
+        0,
+    );
+
+    const joined = addends.join("+");
+    return `${sum}=${joined}`;
 }
 
 /**
@@ -106,5 +130,14 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const index = values.findIndex((value: number): boolean => value < 0);
+    const numsBefore = index === -1 ? values : values.slice(0, index);
+    const sum = numsBefore.reduce(
+        (total: number, num: number): number => total + num,
+        0,
+    );
+    //if this is true, it means that it was unable to find any value < 0
+    return index === -1 ?
+            [...values, sum] //append onto the end if no neg numbers
+        :   [...values.slice(0, index + 1), sum, ...values.slice(index + 1)];
 }
